@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Feed</title>
+  <meta charset="utf-8" />
+  <style>
+    body { font-family: sans-serif; padding: 2em; background: #f4f4f4; }
+    .message { margin-bottom: 1em; background: white; padding: 1em; border-radius: 8px; }
+    .time { color: gray; font-size: 0.8em; }
+  </style>
+</head>
+<body>
+  <h2>📡 Live Messages from Bots</h2>
+  <div id="messages">Loading…</div>
+
+  <script>
+    async function loadMessages() {
+      const res = await fetch("data.json");
+      const messages = await res.json();
+      const container = document.getElementById("messages");
+      container.innerHTML = "";
+      messages.reverse().forEach(msg => {
+        const div = document.createElement("div");
+        div.className = "message";
+        div.innerHTML = `<div>${msg.text}</div><div class="time">${msg.time}</div>`;
+        container.appendChild(div);
+      });
+    }
+    setInterval(loadMessages, 5000);  // reload every 5s
+    loadMessages();
+  </script>
+</body>
+</html>
