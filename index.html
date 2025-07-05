@@ -1,32 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Live Feed</title>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📡 AQA Live Feed</title>
   <style>
-    body { font-family: sans-serif; padding: 2em; background: #f4f4f4; }
-    .message { margin-bottom: 1em; background: white; padding: 1em; border-radius: 8px; }
-    .time { color: gray; font-size: 0.8em; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #eef2f7;
+      color: #222;
+    }
+
+    header {
+      background: #283593;
+      color: white;
+      padding: 1.5em 2em;
+      text-align: center;
+      font-size: 1.8em;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    #messages {
+      padding: 2em;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .message {
+      background: white;
+      margin-bottom: 1.5em;
+      padding: 1.5em;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+
+    .time {
+      text-align: right;
+      color: #666;
+      font-size: 0.85em;
+      margin-top: 1em;
+      font-style: italic;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      font-size: 1.2em;
+      padding: 2em;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        font-size: 1.2em;
+        padding: 1em;
+      }
+      .message {
+        padding: 1em;
+      }
+    }
   </style>
 </head>
 <body>
-  <h2>📡 Live Messages from Bots</h2>
-  <div id="messages">Loading…</div>
+  <header>📡 AQA Live Broadcast Feed</header>
+  <div id="messages">Loading latest transmissions...</div>
 
   <script>
     async function loadMessages() {
-      const res = await fetch("data.json");
-      const messages = await res.json();
-      const container = document.getElementById("messages");
-      container.innerHTML = "";
-      messages.reverse().forEach(msg => {
-        const div = document.createElement("div");
-        div.className = "message";
-        div.innerHTML = `<div>${msg.text}</div><div class="time">${msg.time}</div>`;
-        container.appendChild(div);
-      });
+      try {
+        const res = await fetch("data.json");
+        const raw = await res.json();
+        const container = document.getElementById("messages");
+        container.innerHTML = "";
+
+        if (!Array.isArray(raw) || raw.length === 0) {
+          container.innerHTML = "<div class='error'>No messages available at the moment.</div>";
+          return;
+        }
+
+        raw.reverse().forEach(item => {
+          const msg = typeof item.message === "string" ? item.message : JSON.stringify(item);
+          const div = document.createElement("div");
+          div.className = "message";
+
+          // Optional: Extract timestamp (if embedded in message)
+          let timeExtract = "";
+          const timeRegex = /Live Blockchain Log\s*[-–—]+\s*(.*?)\s*[\n$]/i;
+          const match = msg.match(timeRegex);
+          if (match) {
+            timeExtract = match[1];
+          }
+
+          div.innerHTML = `
+            <div>${msg}</div>
+            <div class="time">🕒 ${timeExtract || "Broadcasted"}</div>
+          `;
+          container.appendChild(div);
+        });
+
+      } catch (e) {
+        document.getElementById("messages").innerHTML =
+          `<div class="error">⚠️ Failed to load messages: ${e.message}</div>`;
+        console.error("Failed to load messages:", e);
+      }
     }
-    setInterval(loadMessages, 5000);  // reload every 5s
+
+    setInterval(loadMessages, 5000);
     loadMessages();
   </script>
 </body>
