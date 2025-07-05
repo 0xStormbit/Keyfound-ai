@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="KeyFound AI - A BTC Address Launcher to explore Bitcoin addresses interactively.">
+  <title>KeyFound AI - BTC Address Launcher</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background-color: #0d0d0d;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    canvas#sparkle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    #buttonsContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      align-items: center;
+      width: 100%;
+      max-width: 440px;
+      z-index: 1;
+    }
+
+    .button-85 {
+      padding: 0.6em 1em;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      background: #111;
+      cursor: pointer;
+      position: relative;
+      z-index: 0;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      word-break: break-word;
+      transition: transform 0.2s ease;
+    }
+
+    .button-85:hover {
+      transform: scale(1.02);
+    }
+
+    .button-85:before {
+      content: "";
+      background: linear-gradient(
+        45deg,
+        #ff0000,
+        #ff7300,
+        #fffb00,
+        #48ff00,
+        #00ffd5,
+        #002bff,
+        #7a00ff,
+        #ff00c8,
+        #ff0000
+      );
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      background-size: 400%;
+      z-index: -1;
+      filter: blur(5px);
+      border-radius: 10px;
+      animation: glowing-button-85 20s linear infinite;
+    }
+
+    .button-85:after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #222;
+      left: 0;
+      top: 0;
+      z-index: -1;
+      border-radius: 10px;
+    }
+
+    @keyframes glowing-button-85 {
+      0% { background-position: 0 0; }
+      50% { background-position: 400% 0; }
+      100% { background-position: 0 0; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="sparkle-canvas" aria-hidden="true"></canvas>
+
+  <main id="buttonsContainer" role="main">
+    <h1>Welcome to Addresses</h1>
+    <p>This is the KeyFound AI BTC Address Launcher.</p>
+  </main>
+
+  <script>
+    const container = document.getElementById("buttonsContainer");
+
+    fetch("https://raw.githubusercontent.com/Shubsaini08/Keyfound-ai/main/list.txt")
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to fetch address list");
+        return response.text();
+      })
+      .then(text => {
+        const addresses = text
+          .split('\n')
+          .map(line => line.trim())
+          .filter(addr => addr);
+
+        addresses.forEach(address => {
+          const btn = document.createElement("button");
+          btn.className = "button-85";
+          btn.textContent = address;
+          btn.setAttribute("aria-label", `View BTC address ${address}`);
+          btn.onclick = () => {
+            window.open(`https://blockchair.com/bitcoin/address/${address}`, "_blank");
+          };
+          container.appendChild(btn);
+        });
+
+        console.log(`✅ Loaded ${addresses.length} BTC address buttons.`);
+      })
+      .catch(err => {
+        container.innerHTML += `<p style="color: red;">⚠️ Error loading address list: ${err.message}</p>`;
+      });
+
+    // Sparkle animation
+    const canvas = document.getElementById('sparkle-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, sparks = [];
+
+    const resizeCanvas = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+
+    const createSpark = () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      size: Math.random() * 2 + 0.5,
+      speedX: (Math.random() - 0.5) * 0.5,
+      speedY: (Math.random() - 0.5) * 0.5,
+      opacity: Math.random()
+    });
+
+    const animateSparkle = () => {
+      ctx.clearRect(0, 0, width, height);
+      sparks.forEach(spark => {
+        ctx.beginPath();
+        ctx.arc(spark.x, spark.y, spark.size, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255,255,255,${spark.opacity})`;
+        ctx.fill();
+
+        spark.x += spark.speedX;
+        spark.y += spark.speedY;
+        spark.opacity -= 0.005;
+
+        if (spark.opacity <= 0) Object.assign(spark, createSpark());
+      });
+
+      requestAnimationFrame(animateSparkle);
+    };
+
+    const initSparkles = () => {
+      resizeCanvas();
+      sparks = Array.from({ length: 200 }, createSpark);
+      animateSparkle();
+    };
+
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('load', initSparkles);
+  </script>
+</body>
+</html>
