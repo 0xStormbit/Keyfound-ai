@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:200,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,300,700,500,400italic,500italic,700italic,300italic" rel="stylesheet">
+    <style>
+        /* First Button Style (for GitHub links) */
+        :root {
+            --text-color: hsla(210, 50%, 85%, 1);
+            --shadow-color: hsla(210, 40%, 52%, .4);
+            --btn-color: hsl(210, 80%, 42%);
+            --bg-color: #141218;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100%;
+            position: relative;
+            padding-bottom: 3rem;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            width: 100%;
+            background: linear-gradient(170deg, rgba(49, 57, 73, 0.8) 20%, rgba(49, 57, 73, 0.5) 20%, rgba(49, 57, 73, 0.5) 35%, rgba(41, 48, 61, 0.6) 35%, rgba(41, 48, 61, 0.8) 45%, rgba(31, 36, 46, 0.5) 45%, rgba(31, 36, 46, 0.8) 75%, rgba(49, 57, 73, 0.5) 75%), linear-gradient(45deg, rgba(20, 24, 31, 0.8) 0%, rgba(41, 48, 61, 0.8) 50%, rgba(82, 95, 122, 0.8) 50%, rgba(133, 146, 173, 0.8) 100%) #313949;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
+
+        button {
+            position: relative;
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: "Source Code Pro";
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 20px;
+            color: var(--text-color);
+            background-color: var(--btn-color);
+            box-shadow: var(--shadow-color) 2px 2px 22px;
+            border-radius: 4px;
+            z-index: 0;
+            overflow: hidden;
+            margin: 12px;
+            display: inline-block;
+        }
+
+        button:focus {
+            outline-color: transparent;
+            box-shadow: var(--btn-color) 2px 2px 22px;
+        }
+
+        .right::after, button::after {
+            content: var(--content);
+            display: block;
+            position: absolute;
+            white-space: nowrap;
+            padding: 40px 40px;
+            pointer-events: none;
+        }
+
+        button::after {
+            font-weight: 200;
+            top: -30px;
+            left: -20px;
+        }
+
+        .right, .left {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+        }
+
+        .right {
+            left: 66%;
+        }
+
+        .left {
+            right: 66%;
+        }
+
+        .right::after {
+            top: -30px;
+            left: calc(-66% - 20px);
+            background-color: var(--bg-color);
+            color: transparent;
+            transition: transform .4s ease-out;
+            transform: translate(0, -90%) rotate(0deg);
+        }
+
+        button:hover .right::after {
+            transform: translate(0, -47%) rotate(0deg);
+        }
+
+        button .right:hover::after {
+            transform: translate(0, -50%) rotate(-7deg);
+        }
+
+        button .left:hover ~ .right::after {
+            transform: translate(0, -50%) rotate(7deg);
+        }
+
+        button::before {
+            content: '';
+            pointer-events: none;
+            opacity: .6;
+            background:
+                radial-gradient(circle at 20% 35%, transparent 0, transparent 2px, var(--text-color) 3px, var(--text-color) 4px, transparent 4px),
+                radial-gradient(circle at 75% 44%, transparent 0, transparent 2px, var(--text-color) 3px, var(--text-color) 4px, transparent 4px),
+                radial-gradient(circle at 46% 52%, transparent 0, transparent 4px, var(--text-color) 5px, var(--text-color) 6px, transparent 6px);
+            width: 100%;
+            height: 300%;
+            top: 0;
+            left: 0;
+            position: absolute;
+            animation: bubbles 5s linear infinite both;
+        }
+
+        @keyframes bubbles {
+            from {
+                transform: translate();
+            }
+            to {
+                transform: translate(0, -66.666%);
+            }
+        }
+
+        /* Second Button Style (for Telegram links) */
+        .wrapper {
+            position: relative;
+            margin: 12px;
+            display: inline-block;
+        }
+
+        .link_wrapper {
+            position: relative;
+        }
+
+        a {
+            display: block;
+            width: 250px;
+            height: 50px;
+            line-height: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            background: #333;
+            text-align: center;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 3px solid #333;
+            transition: all .35s;
+            font-family: 'Lato', sans-serif;
+            font-size: 16px;
+        }
+
+        .icon {
+            width: 50px;
+            height: 50px;
+            border: 3px solid transparent;
+            position: absolute;
+            transform: rotate(45deg);
+            right: 0;
+            top: 0;
+            z-index: -1;
+            transition: all .35s;
+        }
+
+        .icon svg {
+            width: 30px;
+            position: absolute;
+            top: calc(50% - 15px);
+            left: calc(50% - 15px);
+            transform: rotate(-45deg);
+            fill: #2ecc71;
+            transition: all .35s;
+        }
+
+        a:hover {
+            width: 200px;
+            border: 3px solid #2ecc71;
+            background: transparent;
+            color: #2ecc71;
+        }
+
+        a:hover + .icon {
+            border: 3px solid #2ecc71;
+            right: -25%;
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 87px;
+            margin-bottom: 15px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .github-links, .telegram-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contact</h1>
+
+        <!-- GitHub Links Section -->
+        <div class="section">
+            <h2>GitHub Profiles</h2>
+            <div class="github-links">
+                <button style="--content: 'Dookoo2';" onclick="window.location.href='https://github.com/Dookoo2';">
+                    <div class="left"></div>
+                    Dookoo2
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'Mizogg';" onclick="window.location.href='https://github.com/Mizogg';">
+                    <div class="left"></div>
+                    Mizogg
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'iceland2k14';" onclick="window.location.href='https://github.com/iceland2k14';">
+                    <div class="left"></div>
+                    iceland2k14
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'Shubsaini08';" onclick="window.location.href='https://github.com/Shubsaini08';">
+                    <div class="left"></div>
+                    Shubsaini08
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'albertobsd';" onclick="window.location.href='https://github.com/albertobsd';">
+                    <div class="left"></div>
+                    albertobsd
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'JeanLucPons';" onclick="window.location.href='https://github.com/JeanLucPons';">
+                    <div class="left"></div>
+                    JeanLucPons
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'FixedPaul';" onclick="window.location.href='https://github.com/FixedPaul';">
+                    <div class="left"></div>
+                    FixedPaul
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'Qalander';" onclick="window.location.href='https://github.com/Qalander';">
+                    <div class="left"></div>
+                    Qalander
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'XopMC';" onclick="window.location.href='https://github.com/XopMC';">
+                    <div class="left"></div>
+                    XopMC
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'winsnew';" onclick="window.location.href='https://github.com/winsnew';">
+                    <div class="left"></div>
+                    winsnew
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'PawelGorny';" onclick="window.location.href='https://github.com/PawelGorny';">
+                    <div class="left"></div>
+                    PawelGorny
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'Kowala24731';" onclick="window.location.href='https://github.com/Kowala24731';">
+                    <div class="left"></div>
+                    Kowala24731
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'Mehdi256';" onclick="window.location.href='https://github.com/Mehdi256';">
+                    <div class="left"></div>
+                    Mehdi256
+                    <div class="right"></div>
+                </button>
+                <button style="--content: '10gic';" onclick="window.location.href='https://github.com/10gic';">
+                    <div class="left"></div>
+                    10gic
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'Blythex';" onclick="window.location.href='https://github.com/Blythex';">
+                    <div class="left"></div>
+                    Blythex
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'bitcoin-core';" onclick="window.location.href='https://github.com/bitcoin-core';">
+                    <div class="left"></div>
+                    bitcoin-core
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'Zielar';" onclick="window.location.href='https://github.com/Zielar';">
+                    <div class="left"></div>
+                    Zielar
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'turkycat';" onclick="window.location.href='https://github.com/turkycat';">
+                    <div class="left"></div>
+                    turkycat
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'Houzich';" onclick="window.location.href='https://github.com/Houzich';">
+                    <div class="left"></div>
+                    Houzich
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'pianist-coder';" onclick="window.location.href='https://github.com/pianist-coder';">
+                    <div class="left"></div>
+                    pianist-coder
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'open-quantum-safe';" onclick="window.location.href='https://github.com/open-quantum-safe';">
+                    <div class="left"></div>
+                    open-quantum-safe
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'loca008';" onclick="window.location.href='https://github.com/loca008';">
+                    <div class="left"></div>
+                    loca008
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'BlythexPP';" onclick="window.location.href='https://github.com/BlythexPP';">
+                    <div class="left"></div>
+                    BlythexPP
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'codesorcerer0';" onclick="window.location.href='https://github.com/codesorcerer0';">
+                    <div class="left"></div>
+                    codesorcerer0
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'yuta-belmont';" onclick="window.location.href='https://github.com/yuta-belmont';">
+                    <div class="left"></div>
+                    yuta-belmont
+                    <div class="right"></div>
+                </button>
+                <button style="--content: 'seega';" onclick="window.location.href='https://github.com/seega';">
+                    <div class="left"></div>
+                    seega
+                    <div class="right"></div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Telegram Links Section -->
+        <div class="section">
+            <h2>Telegram Channels</h2>
+            <div class="telegram-links">
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/code_Crusaders0">Code Crusaders</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/brutforce_chat">Brutforce Chat</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/btc_founders">BTC Founders</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/CryptoCrackersUK">Crypto Crackers UK</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/BitForces">BitForces</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/keyhunters">KeyHunters</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/brythbitchat">BrythBitChat</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/bitcrackrandomiser">BitCrack Randomiser</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/TeamHunter_GUI">TeamHunter GUI</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/coinhammer_original">CoinHammer Original</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/BTCHunters_Pool">BTC Hunters Pool</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/wif500">WIF500</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/Blythexweb">Blythex Web</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/Crypto_Base_Discuss">Crypto Base Discuss</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/aboveofall">Above of All</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/bitcoin_keys">Bitcoin Keys</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="link_wrapper">
+                        <a href="https://t.me/bpuzzles">BPuzzles</a>
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                                <path d="M255.55 8.832c-16.464-7.328-34.496-2.944-46.368 10.816L17.696 228.992c-12.8 13.504-12.16 34.848 1.408 47.648 7.328 6.912 16.896 10.368 26.464 10.368 7.488 0 15.008-2.016 21.696-6.144l47.904-31.936 37.312 34.464c6.112 5.664 13.952 8.576 21.952 8.576 2.848 0 5.728-.32 8.576-.928 10.912-2.336 19.776-10.432 23.584-20.992l45.12-165.248c5.632-20.64-2.816-42.496-22.656-56.288z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
