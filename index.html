@@ -6,10 +6,22 @@
   <title>KEYFOUND - A PRIVATE KEY DIRECTORY</title>
   <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,300,700,500,400italic" rel="stylesheet">
   <style>
+    :root {
+      --bg-color: #181f26;
+      --primary: #00C4FF;
+      --secondary: #2C3940;
+      --text: #e4eaf0;
+      --card: #202a33;
+      --input-bg: #242f39;
+      --input-border: #384957;
+      --border-radius: 10px;
+      --shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
     body {
       margin: 0;
       padding: 0;
-      background: white;
+      background: var(--bg-color);
       font-family: 'Fira Sans', sans-serif;
       display: flex;
       flex-direction: column;
@@ -17,7 +29,7 @@
       justify-content: flex-start;
       min-height: 100vh;
       padding-top: 60px;
-      color: #2C3940;
+      color: var(--text);
     }
 
     h1 {
@@ -25,13 +37,16 @@
       font-size: 2.5em;
       font-weight: 700;
       letter-spacing: 2px;
+      color: var(--primary);
+      text-shadow: 0 2px 8px #000a;
     }
 
     h2 {
       margin: 10px 0 40px;
       font-size: 1.2em;
       font-weight: 400;
-      color: #00C4FF;
+      color: var(--primary);
+      opacity: 0.85;
     }
 
     .button-container {
@@ -40,13 +55,14 @@
       gap: 15px;
       justify-content: center;
       padding: 0 10px;
+      margin-bottom: 30px;
     }
 
     .menu-button {
-      background: transparent;
-      color: #2C3940;
-      border: 2px solid #2C3940;
-      border-radius: 8px;
+      background: var(--card);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      border-radius: var(--border-radius);
       padding: 12px 20px;
       font-size: 14px;
       font-weight: 500;
@@ -55,17 +71,142 @@
       min-width: 100px;
       text-align: center;
       text-decoration: none;
+      box-shadow: var(--shadow);
     }
 
-    .menu-button:hover {
-      background: #2C3940;
-      color: white;
+    .menu-button:hover, .menu-button.active {
+      background: var(--primary);
+      color: var(--bg-color);
+      border-color: var(--primary);
+    }
+
+    /* To-Do tab styles */
+    #todo-tab {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+      background: var(--card);
+      border-radius: var(--border-radius);
+      padding: 24px 18px 18px 18px;
+      margin-top: 20px;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.4s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    .todo-title {
+      color: var(--primary);
+      margin-bottom: 12px;
+      font-size: 1.25em;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    #todo-input-container {
+      display: flex;
+      width: 100%;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    #todo-input {
+      flex: 1;
+      background: var(--input-bg);
+      color: var(--text);
+      border: 1.5px solid var(--input-border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 1em;
+      outline: none;
+      transition: border 0.2s;
+    }
+    #todo-input:focus {
+      border-color: var(--primary);
+    }
+
+    #todo-add-btn {
+      background: var(--primary);
+      color: var(--bg-color);
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 1em;
+      cursor: pointer;
+      padding: 8px 16px;
+      transition: background 0.2s;
+    }
+    #todo-add-btn:hover {
+      background: #00a8dd;
+    }
+
+    #todo-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      background: var(--input-bg);
+      border-radius: 5px;
+      margin-bottom: 9px;
+      padding: 8px 10px;
+      color: var(--text);
+      font-size: 1em;
+      box-shadow: 0 1px 3px #0003;
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    .todo-item.completed {
+      text-decoration: line-through;
+      color: #788492;
+      opacity: 0.7;
+      background: #222b33;
+    }
+
+    .todo-checkbox {
+      margin-right: 10px;
+      accent-color: var(--primary);
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .todo-delete {
+      background: none;
+      border: none;
+      color: #ff5e7a;
+      font-size: 1em;
+      margin-left: auto;
+      cursor: pointer;
+      padding: 0 8px;
+      border-radius: 4px;
+      transition: background 0.2s;
+      opacity: 0.9;
+    }
+    .todo-delete:hover {
+      background: #ff5e7a21;
+      color: #ff3260;
     }
 
     @media screen and (max-width: 600px) {
       .menu-button {
         flex: 1 1 100%;
         min-width: unset;
+        margin-bottom: 6px;
+      }
+      #todo-tab {
+        max-width: 98vw;
+        padding: 14px 4vw 14px 4vw;
       }
     }
   </style>
@@ -81,7 +222,119 @@
     <a class="menu-button" href="addresses.html">ADDRESSES</a>
     <a class="menu-button" href="keyai.html">KEYFOUND AI</a>
     <a class="menu-button" href="luck.html">LUCK</a>
+    <button class="menu-button" id="todo-tab-btn" type="button">TO-DO</button>
   </div>
+
+  <div id="todo-tab">
+    <span class="todo-title">📝 To-Do List</span>
+    <div id="todo-input-container">
+      <input type="text" id="todo-input" placeholder="Add a new task..." autocomplete="off" />
+      <button id="todo-add-btn">Add</button>
+    </div>
+    <ul id="todo-list"></ul>
+  </div>
+
+  <script>
+    // Toggle To-Do Tab
+    const todoTabBtn = document.getElementById('todo-tab-btn');
+    const todoTab = document.getElementById('todo-tab');
+    todoTabBtn.addEventListener('click', function() {
+      const isOpen = todoTab.style.display === 'flex';
+      todoTab.style.display = isOpen ? 'none' : 'flex';
+      todoTabBtn.classList.toggle('active', !isOpen);
+      if (!isOpen) {
+        document.getElementById('todo-input').focus();
+      }
+    });
+
+    // To-Do storage & logic
+    const todoInput = document.getElementById('todo-input');
+    const todoAddBtn = document.getElementById('todo-add-btn');
+    const todoList = document.getElementById('todo-list');
+    const STORAGE_KEY = 'keyfoundai_todos';
+
+    function loadTodos() {
+      let todos = [];
+      try {
+        todos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch { todos = []; }
+      return todos;
+    }
+
+    function saveTodos(todos) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+    }
+
+    function renderTodos() {
+      const todos = loadTodos();
+      todoList.innerHTML = '';
+      if (todos.length === 0) {
+        todoList.innerHTML = `<li style="color:#788492;text-align:center;">No to-dos yet.</li>`;
+        return;
+      }
+      todos.forEach((todo, idx) => {
+        const li = document.createElement('li');
+        li.className = 'todo-item' + (todo.completed ? ' completed' : '');
+        li.innerHTML = `
+          <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''} data-idx="${idx}">
+          <span>${todo.text}</span>
+          <button class="todo-delete" title="Delete" data-idx="${idx}">&times;</button>
+        `;
+        todoList.appendChild(li);
+      });
+    }
+
+    function addTodo(text) {
+      if (!text.trim()) return;
+      const todos = loadTodos();
+      todos.push({ text: text.trim(), completed: false });
+      saveTodos(todos);
+      renderTodos();
+    }
+
+    function toggleTodo(idx) {
+      const todos = loadTodos();
+      if (todos[idx]) {
+        todos[idx].completed = !todos[idx].completed;
+        saveTodos(todos);
+        renderTodos();
+      }
+    }
+
+    function deleteTodo(idx) {
+      const todos = loadTodos();
+      todos.splice(idx, 1);
+      saveTodos(todos);
+      renderTodos();
+    }
+
+    // Event listeners
+    todoAddBtn.addEventListener('click', () => {
+      addTodo(todoInput.value);
+      todoInput.value = '';
+      todoInput.focus();
+    });
+
+    todoInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        addTodo(todoInput.value);
+        todoInput.value = '';
+      }
+    });
+
+    todoList.addEventListener('click', (e) => {
+      if (e.target.classList.contains('todo-checkbox')) {
+        const idx = e.target.getAttribute('data-idx');
+        toggleTodo(idx);
+      } else if (e.target.classList.contains('todo-delete')) {
+        const idx = e.target.getAttribute('data-idx');
+        deleteTodo(idx);
+      }
+    });
+
+    // Initial render
+    renderTodos();
+  </script>
 
 </body>
 </html>
