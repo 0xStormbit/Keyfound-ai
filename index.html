@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>KeyFound AI - BTC Address Launcher</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       background: #0d0d0d;
@@ -13,7 +17,7 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 2rem;
+      padding: 2rem 1rem;
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
@@ -23,8 +27,8 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       z-index: -2;
       pointer-events: none;
     }
@@ -34,6 +38,8 @@
       flex-direction: column;
       gap: 25px;
       align-items: center;
+      width: 100%;
+      max-width: 440px;
       z-index: 1;
     }
 
@@ -48,9 +54,9 @@
       z-index: 0;
       border-radius: 10px;
       font-size: 0.9rem;
-      width: 420px;
+      width: 100%;
+      max-width: 420px;
       text-align: center;
-      overflow-wrap: break-word;
       word-break: break-word;
     }
 
@@ -136,7 +142,7 @@
         container.innerHTML = `<p style="color: red;">Error loading address list: ${err.message}</p>`;
       });
 
-    // Sparkle effect (from CodePen)
+    // Sparkle effect
     const canvas = document.getElementById('sparkle-canvas');
     const ctx = canvas.getContext('2d');
     let w, h;
